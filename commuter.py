@@ -3,6 +3,25 @@ from manimlib.imports import *
 class commuter(Scene):
 	def construct(self):
 
+		subset_label = TexMobject(
+								"U",
+								",",
+								"V",
+								"\\subset E"
+								)
+		subset_label[0].set_color(RED)
+		subset_label[2].set_color(BLUE)
+
+		self.play(
+			Write(subset_label)
+			)
+		self.wait()
+
+		self.play(
+			Transform(subset_label,subset_label.copy().to_corner(UP))
+			)
+		self.wait()
+
 
 		E_label = TexMobject("E").move_to(np.array([-3,2,0]))
 
@@ -108,7 +127,8 @@ class commuter(Scene):
 		diagram_VG_tgt = diagram_VG.copy().shift(4*LEFT).scale(0.75)
 		
 		self.play(
-			Transform(diagram_VG,diagram_VG_tgt)
+			Transform(diagram_VG,diagram_VG_tgt),
+			FadeOut(subset_label)
 			)
 		self.wait()
 
