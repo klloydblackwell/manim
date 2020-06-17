@@ -30,13 +30,13 @@ class endos(Scene):
 
 		self.play(
 			ShowCreation(E0_to_E1_arc),
-			ShowCreation(E1_to_E0_arc)
+#			ShowCreation(E1_to_E0_arc)
 			)
 		self.wait()
 
 		self.play(
 			Write(E0_to_E1_label),
-			Write(E1_to_E0_label)
+#			Write(E1_to_E0_label)
 			)
 		self.wait()
 
@@ -65,6 +65,16 @@ class endos(Scene):
 			)
 		self.wait()
 
+		self.play(
+			ShowCreation(E1_to_E0_arc)
+			)
+		self.wait()
+
+		self.play(
+			Write(E1_to_E0_label)
+			)
+		self.wait(2)
+
 		graph = VGroup(E0_label,E0_dot,E1_label,E1_dot,E0_to_E1_arc,E0_to_E1_label,E1_to_E0_label,E1_to_E0_arc,alpha_1,alpha_2,alpha_3,alpha_1_label,alpha_2_label,alpha_3_label)
 
 		self.play(
@@ -72,16 +82,21 @@ class endos(Scene):
 			)
 		self.wait()
 
-		bullet_1 = Dot(color=RED,radius=0.1).move_to(np.array([1,0.5,0]))
+		bullet_1 = Dot(color=RED,radius=0.1).move_to(np.array([1,1,0]))
 
-		bullet_2 = bullet_1.copy().move_to(np.array([1,-0.5,0]))
+		bullet_2 = bullet_1.copy().move_to(np.array([1,0,0]))
+
+		bullet_3 = bullet_1.copy().move_to(np.array([1,-1,0]))
 
 		rel_1 = TexMobject("\\text{End}(E_0) \\simeq \\mathcal{O}").next_to(bullet_1,RIGHT)
 
 		rel_2 = TexMobject("\\hat{\\phi} \\circ \\alpha_i \\circ \\phi \\in \\text{End}(E_0)").next_to(bullet_2,RIGHT)
 
+		rel_3 = TexMobject("\\phi \\circ \\hat{\\phi} = \\left[ \\text{deg}(\\phi)^2 \\right]").next_to(bullet_3,RIGHT)
+
 		stat_1 = VGroup(bullet_1,rel_1)
 		stat_2 = VGroup(bullet_2,rel_2)
+		stat_3 = VGroup(bullet_3,rel_3)
 
 		self.play(
 			Write(stat_1)
@@ -91,12 +106,18 @@ class endos(Scene):
 		self.play(
 			Write(stat_2)
 			)
+		self.wait()
+
+		self.play(
+			Write(stat_3)
+			)
 		self.wait(2)
 
 		self.play(
 			FadeOut(graph),
 			FadeOut(stat_1),
-			FadeOut(stat_2)
+			FadeOut(stat_2),
+			FadeOut(stat_3)
 			)
 		self.wait()
 
