@@ -51,7 +51,7 @@ class pathfinder(Scene):
 		self.wait()
 
 		iso_rel_1 = TexMobject("\\simeq \\mathcal{O}").next_to(End_E_label,RIGHT)
-		iso_rel_2 = TexMobject("\\simeq \\mathcal{G'}").next_to(End_Ep_label,RIGHT)
+		iso_rel_2 = TexMobject("\\simeq \\mathcal{O}'").next_to(End_Ep_label,RIGHT)
 
 		self.play(
 			FadeIn(iso_rel_1),
@@ -61,16 +61,23 @@ class pathfinder(Scene):
 
 		ids = []
 		subpaths = []
+		subpath_labels = []
+		subpath_dots = []
 		for i in range(0,5):
-			ids_str = "I_" + str(i+1)
+			ids_str = "\\mathcal{O}_" + str(i+1)
 			ids.append(TexMobject(ids_str).move_to(np.array([-3 + i*1.5, (i % 2)*1 + 0.4,0])).set_color(RED))
 
 		for i in range(1,5):
 			path = Arrow().put_start_and_end_on(ids[i-1].get_center(),ids[i].get_center()).scale(0.6).set_color(BLUE)
 			subpaths.append(path)
+			subpath_str = "I_" + str(i+1)
+			subpath_labels.append(TexMobject(subpath_str).set_color(BLUE).scale(0.75).move_to(subpaths[i-1].get_center()))
+			subpath_dots.append(Dot(color=BLACK,radius=0.2).move_to(subpaths[i-1].get_center()))
 
 		ids_VG = VGroup(*ids)
 		subpaths_VG = VGroup(*subpaths)
+		subpath_labels_VG = VGroup(*subpath_labels)
+		subpath_dots_VG = VGroup(*subpath_dots)
 
 		subrel_1 = ArcBetweenPoints(End_E_label.get_center()+0.5*DOWN, ids[0].get_center() + 0.3*LEFT).add_tip().set_color(GREEN)
 		subrel_2 = ArcBetweenPoints(ids[4].get_center() + 0.3*RIGHT,End_Ep_label.get_center()+0.5*DOWN).add_tip().set_color(GREEN)
@@ -84,6 +91,8 @@ class pathfinder(Scene):
 		for i in range(1,5):
 			self.play(
 				ShowCreation(subpaths[i-1]),
+				FadeIn(subpath_dots[i-1]),
+				Write(subpath_labels[i-1]),
 				Write(ids[i])
 				)
 
@@ -98,7 +107,7 @@ class pathfinder(Scene):
 		bullet_1 = VGroup(bullet_1_dot,bullet_1_label)
 
 		bullet_2_dot = Dot(color=ORANGE, radius=0.1).move_to(np.array([-1.5,-2,0]))
-		bullet_2_label = TexMobject("I_{i+1}", "\\mathcal{G}_i \\subseteq \\mathcal{G}_{i+1}").next_to(bullet_2_dot,RIGHT)
+		bullet_2_label = TexMobject("I_{i+1}", "\\mathcal{O}_i \\subseteq \\mathcal{O}_{i+1}").next_to(bullet_2_dot,RIGHT)
 		bullet_2_label[0].set_color(RED)
 		bullet_2 = VGroup(bullet_2_dot,bullet_2_label)
 
@@ -160,6 +169,8 @@ class pathfinder(Scene):
 			FadeOut(isopath_VG),
 			FadeOut(ids_VG),
 			FadeOut(subpaths_VG),
+			FadeOut(subpath_labels_VG),
+			FadeOut(subpath_dots_VG),
 			FadeOut(subrel_1),
 			FadeOut(subrel_2),
 			FadeOut(iso_rel_1),
