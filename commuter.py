@@ -92,22 +92,46 @@ class commuter(Scene):
 		phi_p_end = np.array([2,-2,0])
 		phi_p_arc = Arrow().put_start_and_end_on(phi_p_start,phi_p_end).set_color(GREEN)
 
+		phi_p_ker = TexMobject("\\text{ker }\\phi' = \\gamma(U)").set_color(GREEN)
+		phi_p_ker.next_to(phi_p_label,UP).scale(0.8)
+
 		gamma_p_label = TexMobject("\\gamma'").set_color(ORANGE).move_to(np.array([3.3,0,0]))
 		gamma_p_start = np.array([3,1.5,0])
 		gamma_p_end = np.array([3,-1.5,0])
 		gamma_p_arc = Arrow().put_start_and_end_on(gamma_p_start,gamma_p_end).set_color(ORANGE)
+
+		gamma_p_ker = TexMobject("\\text{ker }\\gamma' = \\phi(V)").set_color(ORANGE)
+		gamma_p_ker.next_to(gamma_p_label,LEFT).scale(0.8)
 
 		self.play(
 			ShowCreation(phi_p_arc),
 			FadeIn(phi_p_label)
 			)
 		self.wait()
+		self.play(
+			Write(phi_p_ker)
+			)
+		self.wait()
+		self.play(
+			FadeOut(phi_p_ker)
+			)
+		self.wait()
+
 
 		self.play(
 			ShowCreation(gamma_p_arc),
 			FadeIn(gamma_p_label)
 			)
 		self.wait()
+		self.play(
+			Write(gamma_p_ker)
+			)
+		self.wait()
+		self.play(
+			FadeOut(gamma_p_ker)
+			)
+		self.wait()
+
 
 		diagram_VG = VGroup(
 							E_label,
