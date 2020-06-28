@@ -19,7 +19,7 @@ class isohash(Scene):
 		branch_edgeList = []
 		branch_labelList = []
 		
-		root_label = TexMobject("v").next_to(first_node,LEFT)
+		root_label = TexMobject("j_0").next_to(first_node,LEFT)
 		root_label.set_color(ORANGE).scale(1.3)
 		
 		zero_label = TexMobject("0").set_color(GRAY)
@@ -75,7 +75,7 @@ class isohash(Scene):
 			branch_labelList.append(branch_label.set_color(GRAY))
 			
 		
-		destination_label = TexMobject("v'")
+		destination_label = TexMobject("j")
 		destination_label.next_to(main_posList[-1],RIGHT,buff=0.4)
 		destination_label.set_color(ORANGE).scale(1.3)
 		destination_label.shift(0.1*UP)
@@ -130,7 +130,7 @@ class isohash(Scene):
 		rectangle.set_color(RED)
 		rectangle.shift(0.25*DOWN)
 		
-		rectangle_label = TextMobject("Expander graph of supersingular 2-isogenies")
+		rectangle_label = TextMobject("Supersingular 2-isogeny graph")
 		rectangle_label.set_color(RED)
 		rectangle_label.next_to(rectangle,DOWN)
 		
@@ -152,7 +152,7 @@ class isohash(Scene):
 						"H(",     #0
 						"010101", #1 
 						") = ",   #2
-						"v'"      #3
+						"j"      #3
 						)
 		hash_label.to_corner(UP).scale(1.4)	
 		hash_label[1].set_color(BLUE)
