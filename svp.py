@@ -2,7 +2,7 @@
 
 from manimlib.imports import *
 
-grid_shift = 4*LEFT + 2*DOWN
+grid_shift = 3*LEFT + 0.5*DOWN
 
 b1h = np.array([4,0,0])
 
@@ -81,30 +81,52 @@ class svp(Scene):
 			)
 		self.wait(1)
 
-		short_vec = Arrow().put_start_and_end_on(ORIGIN,b2h - b1h)
-		short_vec.set_color(YELLOW).shift(grid_shift)
+		first_dist_A = DashedLine().put_start_and_end_on(ORIGIN,b2h - b1h)
+		first_dist_A.set_color(RED).shift(grid_shift)
+		first_dist_A_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_A,UP+RIGHT,buff=-0.5).scale(0.8)
 
-		short_vec_label = TexMobject("\\boldsymbol{\\gamma}").set_color(YELLOW)
-		short_vec_label.next_to(b2h-b1h,UP,buff=0.2).shift(grid_shift).scale(1.2)
+		first_dist_B = DashedLine().put_start_and_end_on(ORIGIN,b1h - b2h)
+		first_dist_B.set_color(RED).shift(grid_shift)
+		first_dist_B_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_B,UP+RIGHT,buff=-0.5).scale(0.8)
+
+		first_dist_VG = VGroup(first_dist_A,first_dist_B)
+		first_dist_label_VG = VGroup(first_dist_A_label,first_dist_B_label)
+
+		first_dot_A = Dot(radius=0.15,color=RED).move_to(b2h-b1h).shift(grid_shift)
+		first_dot_B = Dot(radius=0.15,color=RED).move_to(b1h-b2h).shift(grid_shift)
+
+		first_dot_VG = VGroup(first_dot_A,first_dot_B)
+
+		first_circ = Circle(arc_center = ORIGIN).set_color(RED).shift(grid_shift).scale(1.66)
+
+		
 
 		self.play(
-			ShowCreation(short_vec),
-			lag_ratio = 0.5,
-			run_time = 2
+			GrowFromPoint(first_circ,grid_shift),
+			lag_ratio=0.3,
+			run_time=4
 			)
 		self.play(
-			Write(short_vec_label)
+			FadeIn(first_dot_VG)
 			)
-		self.wait(1)
+		self.play(
+			ShowCreation(first_dist_VG),
+			lag_ratio=0.5,
+			run_time=2
+			)
+		self.play(
+			Write(first_dist_label_VG)
+			)
+		self.wait(2)
 
-		dialogue_rect = RoundedRectangle(height=2.5,width=6,fill_opacity=1,fill_color=BLACK)
-		dialogue_rect.to_corner(UP)
+		dialogue_rect = RoundedRectangle(height=2.5,width=8,fill_opacity=1,fill_color=BLACK)
+		dialogue_rect.to_corner(UP+RIGHT)
 
-		def_label_A = TextMobject("Shortest Vector").set_color(YELLOW)
+		def_label_A = TextMobject("First Successive Minimum").set_color(RED)
 		def_label_A.move_to(dialogue_rect.get_center() + 0.5*UP)
 
-		def_label_B = TexMobject("\\boldsymbol{\\gamma}",  "= \\min \\lbrace \\; || x ||  \\; : \\; x \\in \\mathcal{L} \\; \\rbrace")
-		def_label_B[0].set_color(YELLOW)
+		def_label_B = TexMobject("\\lambda_1",  "= \\text{min} \\lbrace || \\mathbf{x} ||   :  \\mathbf{x} \\in \\mathcal{L} \\setminus \\mathbf{0} \\rbrace")
+		def_label_B[0].set_color(RED)
 		def_label_B.move_to(dialogue_rect.get_center() + 0.5*DOWN)
 
 		dialogue_box = VGroup(dialogue_rect,def_label_A,def_label_B)
@@ -119,21 +141,86 @@ class svp(Scene):
 			FadeOutAndShift(dialogue_box,UP),
 			)
 		self.play(
-			FadeOut(short_vec),
-			FadeOut(short_vec_label)
+			FadeOut(first_dot_VG),
+			FadeOut(first_dist_VG),
+			FadeOut(first_dist_label_VG)
 			)
 		self.wait(1)
 
-		x_vec = Arrow().put_start_and_end_on(ORIGIN,2*b1h).shift(grid_shift)
-		x_vec.set_color(ORANGE)
-		x_vec_label = TexMobject("x")
-		x_vec_label.next_to(2*b1h,DOWN,buff=0.3).set_color(ORANGE).shift(grid_shift)
+		second_circ = Circle(arc_center = ORIGIN).set_color(YELLOW).shift(grid_shift).scale(3.3)
 
-		y_vec = Arrow().put_start_and_end_on(ORIGIN,b1h+b2h).shift(grid_shift)
-		y_vec.set_color(ORANGE)
-		y_vec_label = TexMobject("y")
-		y_vec_label.next_to(b1h+b2h,UP,buff=0.3).set_color(ORANGE).shift(grid_shift)
+		second_loc = [
+			[-2,2],
+			[-1,2],
+			[0,1],
+			[2,-2],
+			[1,-2],
+			[0,-1]
+			]
 
+		second_dots = [
+			Dot(radius=0.15,color=YELLOW).move_to(second_loc[i][0]*b1h + second_loc[i][1]*b2h).shift(grid_shift)
+			for i in range(0,6)
+			]
+
+		second_dots_VG = VGroup(*second_dots)
+
+		sec_dist_A = DashedLine().put_start_and_end_on(ORIGIN,2*b2h - 2*b1h)
+		sec_dist_A.set_color(YELLOW).shift(grid_shift)
+		sec_dist_A_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_A,UP+RIGHT,buff=-1).scale(0.8)
+
+		sec_dist_B = DashedLine().put_start_and_end_on(ORIGIN,2*b1h - 2*b2h)
+		sec_dist_B.set_color(YELLOW).shift(grid_shift)
+		sec_dist_B_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_B,UP+RIGHT,buff=-1).scale(0.8)
+
+		sec_dist_VG = VGroup(sec_dist_A,sec_dist_B)
+		sec_dist_label_VG = VGroup(sec_dist_A_label,sec_dist_B_label)
+
+		self.play(
+			ReplacementTransform(first_circ,second_circ),
+			lag_ratio=0.3,
+			run_time=4
+			)
+		self.play(
+			FadeIn(second_dots_VG)
+			)
+		self.play(
+			ShowCreation(sec_dist_VG),
+			lag_ratio=0.5,
+			run_time=2
+			)
+		self.play(
+			Write(sec_dist_label_VG)
+			)
+		self.wait(1)
+
+		dialogue_rect = RoundedRectangle(height=1.5,width=7,fill_opacity=1,fill_color=BLACK)
+		dialogue_rect.to_corner(UP+RIGHT)
+
+		def_label_A = TextMobject("Second Successive Minimum").set_color(YELLOW)
+		def_label_A.move_to(dialogue_rect.get_center())
+
+		dialogue_box = VGroup(dialogue_rect,def_label_A)
+
+		self.play(
+			FadeInFrom(dialogue_box,UP),
+			lag_ratio=0.5,
+			run_time=2
+			)
+		self.wait(3)
+		self.play(
+			FadeOutAndShift(dialogue_box,UP),
+			)
+		self.play(
+			FadeOut(second_dots_VG),
+			FadeOut(sec_dist_VG),
+			FadeOut(sec_dist_label_VG),
+			FadeOut(second_circ)
+			)
+		self.wait(2)
+
+
+"""		
 		dist = DashedLine(width=2).put_start_and_end_on(2*b1h,b1h+b2h).set_color(RED).shift(grid_shift)
 		dist_label = TexMobject("\\lambda").set_color(RED).scale(1.2)
 		dist_label.next_to(dist,RIGHT,buff=0)
@@ -191,3 +278,4 @@ class svp(Scene):
 
 
 
+"""

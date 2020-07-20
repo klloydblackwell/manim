@@ -79,9 +79,9 @@ class cvpType(Scene):
 
 		V_pt = Dot((3*b2h) + (-1*b1h) + np.array([-1,0,0]), color = GREEN, radius=0.16 ).shift(grid_shift)
 
-		V_pt_label = TexMobject("\\mathbf{p} \\in \\mathcal{V}").set_color(GREEN).scale(0.8)
+		V_pt_label = TexMobject("\\mathbf{x} \\in \\mathcal{V}").set_color(GREEN).scale(0.8)
 		V_pt_label.next_to(V_pt,UP,buff=0.1)
-		V_pt_label_B = TexMobject("\\mathbf{p}").set_color(GREEN).scale(0.8)
+		V_pt_label_B = TexMobject("\\mathbf{x}").set_color(GREEN).scale(0.8)
 		V_pt_label_B.next_to(V_pt,DOWN+LEFT,buff=0)
 
 		cvp_pt = Dot((3*b2h) + (-1*b1h), color = RED, radius=0.16 ).shift(grid_shift)
@@ -121,7 +121,7 @@ class cvpType(Scene):
 
 		pathList_VG = VGroup(*pathList)
 
-		dest_label = TexMobject("3 b_1 - b_2","\\in","\\mathcal{L}").scale(1).next_to(cvp_pt,UP+RIGHT,buff=0)
+		dest_label = TexMobject("\\mathbf{u} = 3 b_1 - b_2","\\in","\\mathcal{L}").scale(1).next_to(cvp_pt,UP+RIGHT,buff=0)
 		dest_label[0].set_color(RED)
 		dest_label[2].set_color(YELLOW)
 
@@ -152,11 +152,11 @@ class cvpType(Scene):
 		def_label_B = TexMobject(
 			"\\text{CVP}_\\mathcal{L}",
 			"(",
-			"p",
+			"\\mathbf{x}",
 			")",
-			"= \\gamma \\in ",
+			"= \\mathbf{u} \\in ",
 			"\\mathcal{L}, \\quad",
-			"||\\gamma|| = \\text{min}\\lbrace ||x - p|| : x \\in \\mathcal{L} \\rbrace "
+			"||\\mathbf{u}|| = \\text{min}\\lbrace ||\\mathbf{u} - \\mathbf{x}|| : \\mathbf{x} \\in \\mathcal{L} \\rbrace "
 			)
 		def_label_B.move_to(dialogue_rect.get_center() + 0.5*DOWN)
 
