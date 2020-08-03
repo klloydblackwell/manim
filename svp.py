@@ -2,11 +2,11 @@
 
 from manimlib.imports import *
 
-grid_shift = 3*LEFT + 0.5*DOWN
+grid_shift = 3.3*LEFT + 0.7*DOWN
 
 b1h = np.array([4,0,0])
 
-b2h = np.array([3,1.3,0])
+b2h = np.array([2.5,2,0])
 
 class svp(Scene):
 	def construct(self):
@@ -29,7 +29,7 @@ class svp(Scene):
 		b1h_label = TexMobject("b_1")
 		b1h_label.next_to(b1h,DOWN,buff=0.2).scale(0.75).set_color(BLUE).shift(grid_shift)
 
-		b2h_arrow = Arrow().put_start_and_end_on(ORIGIN,np.array([2.95,1.25,0])).shift(grid_shift)
+		b2h_arrow = Arrow().put_start_and_end_on(ORIGIN,np.array([2.45,1.95,0])).shift(grid_shift)
 		b2h_arrow.set_color(BLUE)
 		b2h_label = TexMobject("b_2")
 		b2h_label.next_to(b2h,UP+LEFT,buff=0.1).scale(0.75).set_color(BLUE).shift(grid_shift)
@@ -83,11 +83,11 @@ class svp(Scene):
 
 		first_dist_A = DashedLine().put_start_and_end_on(ORIGIN,b2h - b1h)
 		first_dist_A.set_color(RED).shift(grid_shift)
-		first_dist_A_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_A,UP+RIGHT,buff=-0.5).scale(0.8)
+		first_dist_A_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_A,UP+RIGHT,buff=-0.8).scale(0.8)
 
 		first_dist_B = DashedLine().put_start_and_end_on(ORIGIN,b1h - b2h)
 		first_dist_B.set_color(RED).shift(grid_shift)
-		first_dist_B_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_B,UP+RIGHT,buff=-0.5).scale(0.8)
+		first_dist_B_label = TexMobject("\\lambda_1").set_color(RED).next_to(first_dist_B,UP+RIGHT,buff=-0.8).scale(0.8)
 
 		first_dist_VG = VGroup(first_dist_A,first_dist_B)
 		first_dist_label_VG = VGroup(first_dist_A_label,first_dist_B_label)
@@ -97,7 +97,8 @@ class svp(Scene):
 
 		first_dot_VG = VGroup(first_dot_A,first_dot_B)
 
-		first_circ = Circle(arc_center = ORIGIN).set_color(RED).shift(grid_shift).scale(1.66)
+		first_circ = Circle(arc_center = ORIGIN).set_color(RED).shift(grid_shift)
+		first_circ.scale(np.linalg.norm(b2h-b1h))
 
 		
 
@@ -147,31 +148,28 @@ class svp(Scene):
 			)
 		self.wait(1)
 
-		second_circ = Circle(arc_center = ORIGIN).set_color(YELLOW).shift(grid_shift).scale(3.3)
+		second_circ = Circle(arc_center = ORIGIN).set_color(YELLOW).shift(grid_shift)
+		second_circ.scale(np.linalg.norm(b2h))
 
 		second_loc = [
-			[-2,2],
-			[-1,2],
 			[0,1],
-			[2,-2],
-			[1,-2],
 			[0,-1]
 			]
 
 		second_dots = [
 			Dot(radius=0.15,color=YELLOW).move_to(second_loc[i][0]*b1h + second_loc[i][1]*b2h).shift(grid_shift)
-			for i in range(0,6)
+			for i in range(0,len(second_loc))
 			]
 
 		second_dots_VG = VGroup(*second_dots)
 
-		sec_dist_A = DashedLine().put_start_and_end_on(ORIGIN,2*b2h - 2*b1h)
+		sec_dist_A = DashedLine().put_start_and_end_on(ORIGIN,b2h)
 		sec_dist_A.set_color(YELLOW).shift(grid_shift)
-		sec_dist_A_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_A,UP+RIGHT,buff=-1).scale(0.8)
+		sec_dist_A_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_A,UP+LEFT,buff=-1).scale(0.8)
 
-		sec_dist_B = DashedLine().put_start_and_end_on(ORIGIN,2*b1h - 2*b2h)
+		sec_dist_B = DashedLine().put_start_and_end_on(ORIGIN,-1*b2h)
 		sec_dist_B.set_color(YELLOW).shift(grid_shift)
-		sec_dist_B_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_B,UP+RIGHT,buff=-1).scale(0.8)
+		sec_dist_B_label = TexMobject("\\lambda_2").set_color(YELLOW).next_to(sec_dist_B,UP+LEFT,buff=-1).scale(0.8)
 
 		sec_dist_VG = VGroup(sec_dist_A,sec_dist_B)
 		sec_dist_label_VG = VGroup(sec_dist_A_label,sec_dist_B_label)

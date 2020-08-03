@@ -126,43 +126,58 @@ class bdd(Scene):
 
 		self.add_foreground_mobjects(L_dots_VG)
 
+		self.play(
+			FadeOutAndShift(L_radii_r_VG),
+			Transform(L_radii_VG,L_radii_VG.copy().fade(0.7))
+			)
+		self.wait(2)
+
 		corr_dot_1 = Dot(1*b1h + np.array([0.3,-0.7,0]), radius=0.2, color=RED).shift(grid_shift)
+		corr_dot_r_1 = radii_core.copy().set_color(YELLOW).move_to(corr_dot_1.get_center())
 		corr_dot_1_tgt = Dot(1*b1h, radius=0.15, color=RED).shift(grid_shift)
 
 		self.play(
 			FadeIn(corr_dot_1)
 			)
 		self.play(
-			Transform(L_radii[104],L_radii[104].copy().set_color(YELLOW))
+			FadeIn(corr_dot_r_1)
 			)
+#		self.play(
+#			Transform(L_radii[104],L_radii[104].copy().set_color(YELLOW))
+#			)
 		self.wait(2)
 
 		self.play(
 			Transform(corr_dot_1,corr_dot_1_tgt)
 			)
+		self.wait(2)
 		self.play(
-			Transform(L_radii[104], radii_core.move_to(L_radii[104].get_center()))
+			FadeOut(corr_dot_r_1)
 			)
 		self.wait(2)
 
 		corr_dot_2 = Dot(-1*b1h + 1*b2h + np.array([0.3,0.7,0]), radius=0.2, color=RED).shift(grid_shift)
+		corr_dot_r_2 = radii_core.copy().set_color(YELLOW).move_to(corr_dot_2.get_center())
 		corr_dot_2_tgt = Dot(-1*b1h + 1*b2h, radius=0.15, color=RED).shift(grid_shift)
 
 		self.play(
 			FadeIn(corr_dot_2)
 			)
 		self.play(
-			Transform(L_radii[83],L_radii[83].copy().set_color(YELLOW))
+			FadeIn(corr_dot_r_2)
 			)
+#		self.play(
+#			Transform(L_radii[83],L_radii[83].copy().set_color(YELLOW))
+#			)
 		self.wait(2)
 
 		self.play(
 			Transform(corr_dot_2,corr_dot_2_tgt)
 			)
+		self.wait(2)
 		self.play(
-			Transform(L_radii[83], radii_core.move_to(L_radii[83].get_center()))
+			FadeOut(corr_dot_r_2)
 			)
 		self.wait(2)
-
 
 

@@ -91,37 +91,87 @@ class mink(Scene):
 			FadeIn(L_dots_VG)
 			)
 		
-		self.wait(2)
+		self.wait()
+
+		"""
+		# State Minkowski's Theorem
+		dialogue_rect = RoundedRectangle(height=2.5,width=12,fill_opacity=1,fill_color=BLACK)
+		dialogue_rect.to_corner(DOWN)
+
+		def_label_A = TextMobject("Minkowski's Theorem").set_color(ORANGE)
+		def_label_A.move_to(dialogue_rect.get_center() + 0.8*UP)
+
+		def_label_B = TexMobject(
+			"\\Lambda:\\text{ full rank lattice with dim}(\\Lambda) = n"
+			)
+		def_label_B.move_to(dialogue_rect.get_center() + 0.25*UP).set_color(BLUE).scale(0.6)
+
+		def_label_C = TexMobject(
+			"S:\\text{ convex set with vol}(S) >2^n \\text{det}(\\Lambda) n"
+			)
+		def_label_C.move_to(dialogue_rect.get_center() + 0.25*DOWN).set_color(ORANGE).scale(0.6)
+
+		def_label_D = TexMobject(
+			"\\Rightarrow \\text{ } \\exists \\mathbf{x} \\in \\Lambda \\cap S, \\mathbf{x} \\ne \\mathbf{0}"
+			)
+		def_label_D.move_to(dialogue_rect.get_center() + 0.8*DOWN)
+
+		dialogue_box = VGroup(dialogue_rect,def_label_A,def_label_B,def_label_C,def_label_D)
+		"""
+
+		# State ball volume
+		dialogue_rect = RoundedRectangle(height=2.8,width=7,fill_opacity=1,fill_color=BLACK)
+		dialogue_rect.to_corner(DOWN+RIGHT)
+
+		def_label_A_dot = Dot(color=ORANGE,radius=1).fade(0.75)
+		def_label_A_txt = TexMobject("S").set_color(ORANGE)
+		def_label_A = VGroup(def_label_A_txt,def_label_A_dot)
+		def_label_A.move_to(dialogue_rect.get_center() + 1.8*LEFT)
+
+		def_label_B = TexMobject(
+			"\\text{vol}(S) > 2^n \\text{det}(\\Lambda)"
+			).scale(0.85)
+		def_label_B.move_to(dialogue_rect.get_center() + 1.4*RIGHT).set_color(ORANGE)
+
+		dialogue_box = VGroup(dialogue_rect,def_label_A,def_label_B)
+
+		self.play(
+			FadeInFrom(dialogue_box,DOWN),
+			lag_ratio=0.5,
+			run_time=2
+			)
+		self.wait(3)
+		
 
 		# TODO: Fadeout grid
 
 		locList = [
 			np.array([-2,-1,0]),
-			np.array([6,3.5,0]),
+			np.array([5,4,0]),
+			np.array([-1.5,2.5,0]),
 			np.array([4,-1,0]),
-			np.array([-2,3,0])
 			]
 
 		destList = [
 			np.array([0,-1,0]),
 			np.array([0,2,0]),
-			np.array([1,0,0]),
-			np.array([-1,1,0])
+			np.array([-1,1,0]),
+			np.array([1,0,0])
 			]
 
 		normList = [
-			np.linalg.norm(locList[i] - (destList[i][0]*b1h + destList[i][1]*b2h)) for i in range(0,4)
+			np.linalg.norm(locList[i] - (destList[i][0]*b1h + destList[i][1]*b2h)) for i in range(0,3)
 			]
 
 		diskList = [
-			Dot(locList[i] + grid_shift,radius=normList[i],color=ORANGE).fade(0.75) for i in range(0,4)
+			Dot(locList[i] + grid_shift,radius=normList[0],color=ORANGE).fade(0.75) for i in range(0,3)
 			]
 
 		vdotList = [Dot(i + grid_shift,radius=0.15,color=YELLOW) for i in locList]
 
-		destdotList = [Dot( destList[i][0]*b1h + destList[i][1]*b2h + grid_shift, radius = 0.15, color=RED ) for i in range(0,4)]
+		destdotList = [Dot( destList[i][0]*b1h + destList[i][1]*b2h + grid_shift, radius = 0.15, color=RED ) for i in range(0,3)]
 
-		for i in range(0,4):
+		for i in range(0,3):
 			self.play(
 				FadeIn(vdotList[i])
 				)

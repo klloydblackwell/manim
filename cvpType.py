@@ -92,9 +92,31 @@ class cvpType(Scene):
 		self.play(
 			Write(V_pt_label)
 			)
-		self.wait(2)
+		self.wait()
+
+		dialogue_rect = RoundedRectangle(height=1.6,width=8,fill_opacity=1,fill_color=BLACK)
+		dialogue_rect.to_corner(DOWN)
+
+		def_label_A = TextMobject("Vector Space").set_color(GREEN)
+		def_label_A.move_to(dialogue_rect.get_center() + 0.4*UP)
+
+		def_label_B = TexMobject("\\mathcal{V} = \\mathbb{R}^n = \\mathbb{R} \\otimes \\mathcal{L} = \\text{span}(\\mathcal{L})")
+		def_label_B[0].set_color(GREEN)
+		def_label_B.move_to(dialogue_rect.get_center() + 0.4*DOWN)
+
+		dialogue_box = VGroup(dialogue_rect,def_label_A,def_label_B)
+
 		self.play(
-			FadeOut(V_pt_label)
+			FadeInFromDown(dialogue_box),
+			lag_ratio=0.5,
+			run_time=2
+			)
+		self.wait(3)
+
+
+		self.play(
+			FadeOut(V_pt_label),
+			FadeOutAndShift(dialogue_box)
 			)
 		self.wait()
 
