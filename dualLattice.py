@@ -177,18 +177,18 @@ class dualLattice(Scene):
 		
 
 		#Write n.x, n.y properties
-		def_label_B = TexMobject("\\langle \\mathbf{x}, n \\cdot \\mathbf{x}' \\rangle = \\langle \\mathbf{y}, n \\cdot \\mathbf{y}' \\rangle = n")
-		def_label_C = TexMobject("\\text{ } \\Rightarrow \\text{ } n \\cdot \\mathbf{x}',n \\cdot \\mathbf{y}' \\in \\mathcal{L}^{\\bot} \\text{ } \\forall \\text{ } n \\in \\mathbb{Z}")
-					
+		def_label_B = TexMobject("\\langle \\mathbf{x}, n \\cdot \\mathbf{x}' \\rangle = n, \\hphantom{-} n \\in \\mathbb{Z}")
+		def_label_C = TexMobject("\\langle \\mathbf{y}, m \\cdot \\mathbf{y}' \\rangle = m, \\hphantom{-} m \\in \\mathbb{Z}")
+		
+
 		def_label_B[0].move_to(dialogue_rect.get_center() + 0.5*UP)
 		def_label_C.move_to(dialogue_rect.get_center() + 0.5*DOWN)
+
+		nxny_def_label_VG = VGroup(def_label_B,def_label_C)
 		self.play(
-			ReplacementTransform(def_label_A,def_label_B[0])
+			ReplacementTransform(def_label_A,nxny_def_label_VG)
 			)
-		self.play(
-			Write(def_label_C)
-			)
-		dialogue_box = VGroup(dialogue_rect,def_label_B,def_label_C)
+		dialogue_box = VGroup(dialogue_rect,nxny_def_label_VG)
 		self.add_foreground_mobjects(dialogue_box)
 
 		# Switch to gridders
